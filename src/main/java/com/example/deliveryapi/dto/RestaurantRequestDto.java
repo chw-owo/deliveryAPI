@@ -1,5 +1,6 @@
 package com.example.deliveryapi.dto;
 
+import com.example.deliveryapi.model.Food;
 import lombok.Getter;
 import lombok.Setter;
 

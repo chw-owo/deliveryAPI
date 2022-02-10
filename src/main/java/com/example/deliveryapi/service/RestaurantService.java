@@ -1,5 +1,10 @@
 package com.example.deliveryapi.service;
 import com.example.deliveryapi.dto.RestaurantRequestDto;
+import com.example.deliveryapi.exception.DeliveryFeeException;
+import com.example.deliveryapi.exception.MinOrderPriceException;
+import com.example.deliveryapi.exception.NotAuthenticatedException;
+import com.example.deliveryapi.exception.PriceMinMaxException;
+import com.example.deliveryapi.model.Food;
 import com.example.deliveryapi.model.Restaurant;
 import com.example.deliveryapi.model.UserRoleEnum;
 import com.example.deliveryapi.repository.RestaurantRepository;
@@ -21,8 +26,24 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Restaurant registerRestaurant(RestaurantRequestDto requestDto) throws SQLException {
+    public Restaurant registerRestaurant(RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
 // 요청받은 DTO 로 DB에 저장할 객체 만들기
+
+        if(requestDto.getDeliveryFee()% 500 != 0){
+            throw new DeliveryFeeException();
+        }
+        if(requestDto.getMinOrderPrice()% 100 != 0){
+            throw new MinOrderPriceException();
+        }
+        if(requestDto.getMinOrderPrice() < 0 || requestDto.getMinOrderPrice() > 100000){
+            throw new PriceMinMaxException();
+        }
+        if(requestDto.getDeliveryFee() < 0 || requestDto.getDeliveryFee() >10000){
+            throw new PriceMinMaxException();
+        }
+//        if (userDetails.getRole()!= UserRoleEnum.ADMIN){
+//            throw new NotAuthenticatedException();
+//        }
 
         Restaurant restaurant = new Restaurant(requestDto);
         return restaurantRepository.save(restaurant);

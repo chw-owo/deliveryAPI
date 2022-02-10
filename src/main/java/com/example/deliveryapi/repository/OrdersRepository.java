@@ -1,10 +1,8 @@
 package com.example.deliveryapi.repository;
 
 import com.example.deliveryapi.model.Food;
+import com.example.deliveryapi.model.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface FoodCustomRepository{
-    List<Food> responseAllFood();
+public interface OrdersRepository extends JpaRepository<Orders, Long> {
 }

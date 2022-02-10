@@ -8,7 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -20,7 +21,7 @@ public class Restaurant {
     @Id
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable=true)
     private String name;
 
     @Min(0)
@@ -32,6 +33,11 @@ public class Restaurant {
     @Max(10000)
     @Column
     private int deliveryFee;
+
+//    @OneToMany
+//    @JoinColumn(name = "FOOD_ID", nullable = false)
+//    private Set<Food> foods;
+//
 
     public Restaurant(String name, int minOrderPrice, int deliveryFee) {
 

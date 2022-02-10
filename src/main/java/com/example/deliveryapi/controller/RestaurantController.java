@@ -36,22 +36,8 @@ public class RestaurantController {
     // 신규 상품 등록
     @PostMapping("/restaurant/register")
     public Restaurant registerRestaurant(@RequestBody RestaurantRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException { //@AuthenticationPrincipal UserDetailsImpl userDetails
-        if(requestDto.getDeliveryFee()% 500 != 0){
-            throw new DeliveryFeeException();
-        }
-        if(requestDto.getMinOrderPrice()% 100 != 0){
-            throw new MinOrderPriceException();
-        }
-        if(requestDto.getMinOrderPrice() < 0 || requestDto.getMinOrderPrice() > 100000){
-            throw new PriceMinMaxException();
-        }
-        if(requestDto.getDeliveryFee() < 0 || requestDto.getDeliveryFee() >10000){
-            throw new PriceMinMaxException();
-        }
-        if (userDetails.getRole()!= UserRoleEnum.ADMIN){
-            throw new NotAuthenticatedException();
-        }
-        Restaurant restaurant = RestaurantService.registerRestaurant(requestDto);
+
+        Restaurant restaurant = RestaurantService.registerRestaurant(requestDto, userDetails);
 
         return restaurant;
     }
