@@ -16,5 +16,5 @@ public class OrdersResponseDto {
 //    private String RestaurantName;
 //    private int deliveryFee;
     private int totalPrice;
-    private List<Orders_Foods> foods;
+    private Orders_Foods foods;
 }

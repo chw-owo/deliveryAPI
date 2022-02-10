@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -24,8 +25,15 @@ public class Orders {
     @JoinColumn(name = "Restaurant_ID", nullable = false)
     private Restaurant restaurantId;
 
-    @Column(nullable = true)
-    private int restaurantIdCheck;
+    @OneToOne //Many
+    @JoinColumn(name = "Orders_Foods", nullable = false)
+    private Orders_Foods foods;
+
+//    @Column(nullable = true)
+//    private long restaurantId;
+
+//    @Column(nullable = true)
+//    private long foods;
 
     @Column(nullable = true)
     private String restaurantName;
@@ -36,9 +44,8 @@ public class Orders {
     @Column(nullable = true)
     private int totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "Orders_Foods", nullable = false)
-    private Orders_Foods foods;
+
+
 
     //request
     public Orders(Restaurant restaurantId, int totalPrice, Orders_Foods foods) {
@@ -49,10 +56,10 @@ public class Orders {
         this.foods = foods;
     }
 
-    public Orders(OrdersRequestDto requestDto) {
+    public Orders(Restaurant restaurantId, Orders_Foods foods) {
 
-        this.restaurantId = requestDto.getRestaurantId();
-        this.foods = requestDto.getFoods();
+        this.restaurantId = restaurantId;
+        this.foods = foods;
     }
 
 }

@@ -6,6 +6,7 @@ import com.example.deliveryapi.model.Orders;
 import com.example.deliveryapi.model.Orders_Foods;
 import com.example.deliveryapi.model.Restaurant;
 import com.example.deliveryapi.repository.FoodRepository;
+import com.example.deliveryapi.repository.OrdersFoodsRepository;
 import com.example.deliveryapi.repository.OrdersRepository;
 import com.example.deliveryapi.repository.RestaurantRepository;
 import com.example.deliveryapi.security.UserDetailsImpl;
@@ -35,25 +36,38 @@ public class OrdersService {
     }
 
     // 신규 상품 등록
-    public Orders registerOrders(@RequestBody OrdersRequestDto requestDto, Long restaurantIdCheck, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+    public Orders registerOrders(@RequestBody OrdersRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
 
-        Orders ordersRequest = new Orders(requestDto);
-        Restaurant restaurantId = restaurantRepository.findById(restaurantIdCheck).orElseThrow(
+
+        Restaurant restaurantId = restaurantRepository.findById(requestDto.getRestaurantId()).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 식당입니다.")
         );
-//        Food foods = foodRepository.findById(ordersRequest.getFoods().getId()).orElseThrow(
-//                () -> new IllegalArgumentException("존재하지 않는 메뉴입니다.")
-//        );
 
-        Orders_Foods orderFoods = ordersRequest.getFoods();
 
-//
-//        orderFoods.setName(ordersRequest.getFoods().getName());
-//        orderFoods.setPrice(ordersRequest.getFoods().getPrice());cd cgw
-//        orderFoods.setQuantity(ordersRequest.getFoods().getQuantity());
+        Food food = foodRepository.findById(requestDto.getFoods().getId()).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 음식입니다.")
+        );
+
+        Orders_Foods ordersFoods = new Orders_Foods();
+        ordersFoods.setName(food.getName());
+        ordersFoods.setPrice(food.getPrice());
+        ordersFoods.setQuantity(1);//foods.getQuantity());
+
         int totalPrice = 1000;
+        Orders ordersResponse = new Orders(restaurantId, totalPrice, ordersFoods);
 
-        Orders ordersResponse = new Orders(restaurantId, totalPrice, orderFoods);
+//        Orders_Foods ordersFoods = new Orders_Foods();
+//        for (int i =0; i<requestDto.getFoods().size(); i++){
+//            Food food = requestDto.getFoods().get(i).getFoodId();
+//            ordersFoods.setName(food.getName());
+//            ordersFoods.setPrice(food.getPrice());
+//            ordersFoods.setQuantity(1);//foods.getQuantity());
+//        }
+//        int totalPrice = 1000;
+//        Orders ordersResponse = new Orders(restaurantId, totalPrice, ordersFoods);
+
+
+
 
         return ordersRepository.save(ordersResponse);
     }

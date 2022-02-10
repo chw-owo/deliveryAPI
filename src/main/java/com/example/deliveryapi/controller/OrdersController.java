@@ -30,9 +30,9 @@ public class OrdersController {
 
     // 신규 상품 등록
     @PostMapping("/order/request")
-    public Orders registerOrders(@RequestBody OrdersRequestDto requestDto, Long restaurantIdCheck, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+    public Orders registerOrders(@RequestBody OrdersRequestDto requestDto,  @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
 
-        Orders orders = ordersService.registerOrders(requestDto, restaurantIdCheck, userDetails);
+        Orders orders = ordersService.registerOrders(requestDto, userDetails);
         return orders;
     }
 }

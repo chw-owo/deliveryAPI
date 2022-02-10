@@ -19,7 +19,7 @@ public class Orders_Foods {
 
     @OneToOne
     @JoinColumn(name = "Food_Id", nullable = true)
-    private Food foodId;
+    private Food foods;
 
     @Column(nullable=true)
     private int quantity;

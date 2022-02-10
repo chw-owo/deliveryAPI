@@ -162,15 +162,15 @@
         let foodId = $('#orders-food-id').val();
         let quantity = $('#orders-food-quantity').val();
         let restaurantId = $('#orders-restaurant-id').val();
-        let food_data = {'foodId': foodId, 'quantity': quantity};
-        let data = {'restaurantId': null, 'foods': food_data};
+        let food_data = {'fId': foodId, 'quantity': quantity};
+        let data = {'restaurantId': restaurantId, 'foods': food_data};
 
         // 5. POST /api/posts 에 data를 전달합니다.
         $.ajax({
             type: "POST",
             url: "/order/request",
             contentType: "application/json",
-            data: JSON.stringify(data, restaurantId),
+            data: JSON.stringify(data),
             success: function (response) {
                 alert('주문이 성공적으로 등록되었습니다.');
                 window.location.reload();
