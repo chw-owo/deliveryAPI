@@ -15,11 +15,14 @@ public class Orders_Foods {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long id;
+    private Long ordersId;
 
     @OneToOne
     @JoinColumn(name = "Food_Id", nullable = true)
     private Food foods;
+
+    @Column(nullable=true)
+    private Long id;
 
     @Column(nullable=true)
     private int quantity;

@@ -1,0 +1,6 @@
+#FileLock
+#Thu Feb 10 19:30:46 KST 2022
+server=192.168.219.102\:64375
+hostName=192.168.219.102
+method=file
+id=17ee32f7b6ef0328c5fd5add2c81eff31e51da63ad7
